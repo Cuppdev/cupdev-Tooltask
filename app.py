@@ -12,9 +12,6 @@ from geopy.geocoders import Nominatim
 from threading import Thread
 import time
 
-# ==============================
-#       PALETA DE COLORES
-# ==============================
 LIGHT_COLORS = {
     "bg_main": "#F4F4F4",
     "bg_panel": "#FFFFFF",
@@ -37,9 +34,6 @@ DARK_COLORS = {
     "highlight": "#777777",
 }
 
-# ==============================
-#   CLASE PARA FONDO GRADIENTE
-# ==============================
 class GradientFrame(tk.Canvas):
     """
     Un Canvas que dibuja un gradiente vertical entre color1 y color2.
@@ -59,11 +53,11 @@ class GradientFrame(tk.Canvas):
         width = self.winfo_width()
         height = self.winfo_height()
 
-        # Convertir colores a RGB
+       
         r1, g1, b1 = self.winfo_rgb(self.color1)
         r2, g2, b2 = self.winfo_rgb(self.color2)
 
-        # Dibujar cada línea con una interpolación entre los colores
+       
         for i in range(height):
             ratio = i / float(height)
             r = int(r1 + (r2 - r1) * ratio)
@@ -73,49 +67,44 @@ class GradientFrame(tk.Canvas):
             self.create_line(0, i, width, i, tags=("gradient",), fill=color)
         self.lower("gradient")
 
-# ========================================================
-#        CLASE PRINCIPAL DE LA APLICACIÓN
-# ========================================================
 class ModernApp:
     def __init__(self, root):
         self.root = root
         self.root.title("CUPDEV - ULTRA FUTURE 2040")
         self.root.geometry("1200x850")
 
-        # Faker en español
+       
         self.fake = Faker("es_ES")
 
-        # Estado inicial: modo claro
+      
         self.is_dark_mode = False
         self.colors = LIGHT_COLORS
 
-        # CONFIGURACIÓN DE ESTILOS
+    
         self.style = ttk.Style()
         self.style.theme_use("clam")
         self._configure_futuristic_style()
 
-        # FONDO GRADIENTE
+      
         self.gradient_frame = GradientFrame(self.root, "#0f0c29", "#302b63")
         self.gradient_frame.pack(fill="both", expand=True)
 
-        # Contenedor principal encima del gradiente
+       
         self.main_container = tk.Frame(self.root, bg=self.colors["bg_main"])
         self.main_container.place(relx=0, rely=0, relwidth=1, relheight=1)
 
-        # Creación de interfaz
+       
         self.create_top_bar()
         self.create_main_layout()
         self.create_tabs()
         self.apply_colors()
 
-        # Variable para animar label "SCANNING"
+        
         self.scanning_label_on = False
         self.scanning_colors = ["#00FFFB", "#00FFA0", "#FA00FF", "#FFF700"]
         self.scanning_index = 0
 
-    # ---------------------------
-    #  ESTILO FUTURISTA (NEÓN)
-    # ---------------------------
+ 
     def _configure_futuristic_style(self):
         """
         Ajusta un estilo 'futurista' (tipo neón) para widgets TTK.
@@ -124,7 +113,7 @@ class ModernApp:
         self.style.configure(
             "Neon.TButton",
             font=("Consolas", 10, "bold"),
-            foreground="#00FFFB",  # azul neón
+            foreground="#00FFFB",  
             background="#111111",
             padding=8,
             borderwidth=2,
@@ -165,9 +154,6 @@ class ModernApp:
             borderwidth=1
         )
 
-    # -------------------------
-    #   BARRA SUPERIOR
-    # -------------------------
     def create_top_bar(self):
         """
         Crea la barra superior con el título y el botón para cambiar modo oscuro/claro.
@@ -175,7 +161,7 @@ class ModernApp:
         self.top_bar = tk.Frame(self.main_container, height=60, bg="#111111")
         self.top_bar.pack(side=tk.TOP, fill=tk.X)
 
-        # Etiqueta super futurista
+       
         self.lbl_title = tk.Label(
             self.top_bar,
             text="CUPDEV 2040 - HYPER-TECH SYSTEM",
@@ -185,7 +171,7 @@ class ModernApp:
         )
         self.lbl_title.pack(side=tk.LEFT, padx=20)
 
-        # Botón Modo Oscuro/Claro
+    
         self.btn_toggle_mode = ttk.Button(
             self.top_bar,
             text="Modo Oscuro",
@@ -194,23 +180,19 @@ class ModernApp:
         )
         self.btn_toggle_mode.pack(side=tk.RIGHT, padx=20)
 
-    # -------------------------
-    #      LAYOUT PRINCIPAL
-    # -------------------------
+   
     def create_main_layout(self):
         """Crea el diseño principal con sidebar y área de pestañas"""
         self.content_frame = tk.Frame(self.main_container, bg=self.colors["bg_main"])
         self.content_frame.pack(fill=tk.BOTH, expand=True)
 
-        # SIDEBAR
+       
         self.sidebar_frame = tk.Frame(self.content_frame, width=220, bg=self.colors["bg_panel"])
         self.sidebar_frame.pack(side=tk.LEFT, fill=tk.Y)
 
-        # Contenedor de Notebook
         self.notebook_frame = tk.Frame(self.content_frame, bg=self.colors["bg_panel"])
         self.notebook_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
-        # Título / Logo en Sidebar
         self.label_logo = tk.Label(
             self.sidebar_frame,
             text="CUPDEV\nNEON-TECH",
@@ -221,7 +203,6 @@ class ModernApp:
         )
         self.label_logo.pack(pady=20)
 
-        # Botones de la barra lateral
         self.btn_identity = ttk.Button(
             self.sidebar_frame,
             text="Identidades",
@@ -254,9 +235,7 @@ class ModernApp:
         )
         self.btn_pass.pack(pady=10, padx=10, fill=tk.X)
 
-    # -------------------------
-    #       CREAR TABS
-    # -------------------------
+ 
     def create_tabs(self):
         """Crea las pestañas principales"""
         self.notebook = ttk.Notebook(self.notebook_frame)
@@ -273,18 +252,15 @@ class ModernApp:
         self.notebook.add(self.tab_geo, text="Geolocalización")
         self.notebook.add(self.tab_password, text="Generador de Contraseñas")
 
-        # Configurar cada pestaña
+      
         self.setup_tab_identity()
         self.setup_tab_ip()
         self.setup_tab_geo()
         self.setup_tab_password()
 
-    # =========================================================
-    #     PESTAÑA 1: IDENTIDADES (GENERADOR DE IDENTIDAD)
-    # =========================================================
     def setup_tab_identity(self):
         """Configura la pestaña de Identidades"""
-        # Marco superior
+   
         self.identity_top_frame = tk.LabelFrame(
             self.tab_identity,
             text="Generador de Identidad Española",
@@ -303,7 +279,6 @@ class ModernApp:
         )
         self.lbl_identity_title.pack(side=tk.LEFT, padx=10, pady=10)
 
-        # Label SCANNING (parpadeante)
         self.lbl_scanning = tk.Label(
             self.identity_top_frame,
             text="",
@@ -321,7 +296,7 @@ class ModernApp:
         )
         self.btn_generate_identity.pack(side=tk.RIGHT, padx=10, pady=10)
 
-        # Progreso (animación) para la generación
+       
         self.progress_identity = ttk.Progressbar(
             self.identity_top_frame,
             mode="indeterminate",
@@ -329,7 +304,7 @@ class ModernApp:
         )
         self.progress_identity.pack(side=tk.RIGHT, padx=(0,10), pady=10)
 
-        # Texto donde se imprime la identidad
+
         self.identity_text_frame = tk.Frame(self.tab_identity, bg=self.colors["bg_main"])
         self.identity_text_frame.pack(fill=tk.BOTH, expand=True, padx=15, pady=5)
 
@@ -351,7 +326,7 @@ class ModernApp:
         self.scroll_identity.pack(side=tk.RIGHT, fill=tk.Y)
         self.txt_identity.config(yscrollcommand=self.scroll_identity.set)
 
-        # Botones de Copiar / Guardar
+        
         bottom_frame = tk.Frame(self.tab_identity, bg=self.colors["bg_main"])
         bottom_frame.pack(pady=10)
 
@@ -376,7 +351,7 @@ class ModernApp:
         Inicia un hilo para simular un proceso que tarda (con barra de progreso animada).
         """
         self.txt_identity.delete("1.0", tk.END)
-        self.progress_identity.start(10)  # velocidad de animación
+        self.progress_identity.start(10) 
         self.start_identity_scanning()
         thread = Thread(target=self.generar_identidad)
         thread.start()
@@ -403,26 +378,26 @@ class ModernApp:
 
     def generar_identidad(self):
         """Genera una identidad falsa en español con datos variados."""
-        time.sleep(1.5)  # Simula un retardo
+        time.sleep(1.5)  
 
-        # Datos básicos
+        
         nombre = self.fake.name()
         fecha_nacimiento = self.fake.date_of_birth(minimum_age=18, maximum_age=80).strftime("%d/%m/%Y")
         dni = self.generar_dni()
         estado_civil = random.choice(["Soltero/a", "Casado/a", "Divorciado/a", "Viudo/a"])
         hijos = random.randint(0, 3)
         telefono = self.fake.phone_number()
-        # Email con dominio real
+       
         email = self.generar_email_personalizado()
 
-        # Dirección
+        
         direccion, ciudad, provincia, cp = self.generar_direccion_consistente()
 
-        # Vehículo y licencia
+      
         licencia_conducir = self.generar_licencia_conducir()
         matricula = self.generar_matricula_vehiculo()
 
-        # Datos bancarios
+       
         try:
             iban = self.fake.iban(country_code='ES')
         except:
@@ -431,10 +406,10 @@ class ModernApp:
         cc_expire = self.fake.credit_card_expire()
         cc_cvv = self.fake.credit_card_security_code()
 
-        # Password aleatoria (12 caracteres)
+       
         password = self.generar_password(12)
 
-        # Pequeña “biografía”
+        
         bio = self.fake.text(max_nb_chars=200)
 
         identidad = (
@@ -536,9 +511,7 @@ class ModernApp:
                     f.write(contenido)
                 messagebox.showinfo("Guardado", "Identidad guardada correctamente.")
 
-    # ===================================
-    #     PESTAÑA 2: IP LOOKUP
-    # ===================================
+   
     def setup_tab_ip(self):
         """Configura la pestaña de Búsqueda de IP"""
         self.ip_frame_top = tk.LabelFrame(
@@ -570,7 +543,6 @@ class ModernApp:
         )
         self.btn_search_ip.pack(side=tk.LEFT, padx=10, pady=10)
 
-        # Barra de progreso para la búsqueda
         self.progress_ip_lookup = ttk.Progressbar(
             self.ip_frame_top,
             mode="indeterminate",
@@ -578,7 +550,7 @@ class ModernApp:
         )
         self.progress_ip_lookup.pack(side=tk.LEFT, padx=(0,10), pady=10)
 
-        # Cuadro de texto para mostrar resultado
+        
         self.ip_text_frame = tk.Frame(self.tab_ip, bg=self.colors["bg_main"])
         self.ip_text_frame.pack(fill=tk.BOTH, expand=True, padx=15, pady=5)
 
@@ -600,7 +572,7 @@ class ModernApp:
         self.scroll_ip_result.pack(side=tk.RIGHT, fill=tk.Y)
         self.txt_ip_result.config(yscrollcommand=self.scroll_ip_result.set)
 
-        # Botones Copiar / Guardar
+        
         bottom_frame = tk.Frame(self.tab_ip, bg=self.colors["bg_main"])
         bottom_frame.pack(pady=10)
 
@@ -633,7 +605,7 @@ class ModernApp:
 
         ip_address = self.ip_entry.get().strip()
         if not ip_address:
-            # Si no se proporciona IP, usamos la IP pública del usuario
+           
             try:
                 ip_address = requests.get("https://api.ipify.org").text
             except:
@@ -681,9 +653,7 @@ class ModernApp:
                     f.write(contenido)
                 messagebox.showinfo("Guardado", "Información de IP guardada correctamente.")
 
-    # ========================================
-    #     PESTAÑA 3: GEOLOCALIZACIÓN
-    # ========================================
+   
     def setup_tab_geo(self):
         """Configura la pestaña de Geolocalización"""
         self.geo_frame_top = tk.LabelFrame(
@@ -715,7 +685,7 @@ class ModernApp:
         )
         self.btn_search_geo.pack(side=tk.LEFT, padx=10, pady=10)
 
-        # Barra de progreso
+       
         self.progress_geo = ttk.Progressbar(
             self.geo_frame_top,
             mode="indeterminate",
@@ -723,7 +693,7 @@ class ModernApp:
         )
         self.progress_geo.pack(side=tk.LEFT, padx=(0,10), pady=10)
 
-        # Cuadro de texto para mostrar resultado
+      
         self.geo_text_frame = tk.Frame(self.tab_geo, bg=self.colors["bg_main"])
         self.geo_text_frame.pack(fill=tk.BOTH, expand=True, padx=15, pady=5)
 
@@ -772,7 +742,7 @@ class ModernApp:
                 )
                 self.txt_geo_result.insert("1.0", resultado)
 
-                # Crear mapa con folium
+               
                 mapa = folium.Map(location=[location.latitude, location.longitude], zoom_start=14)
                 folium.Marker(
                     [location.latitude, location.longitude],
@@ -780,9 +750,9 @@ class ModernApp:
                     tooltip="Ubicación"
                 ).add_to(mapa)
 
-                # Guardar mapa en un archivo temporal HTML
+                
                 mapa.save("mapa_geolocalizacion.html")
-                # Abrir en el navegador
+          
                 webbrowser.open("mapa_geolocalizacion.html")
             else:
                 self.txt_geo_result.insert("1.0", f"No se encontró la dirección: {direccion}")
@@ -792,9 +762,7 @@ class ModernApp:
 
         self.progress_geo.stop()
 
-    # ============================================
-    #     PESTAÑA 4: GENERADOR DE CONTRASEÑAS
-    # ============================================
+    
     def setup_tab_password(self):
         """Configura la pestaña de Generador de Contraseñas."""
         self.pass_frame_top = tk.LabelFrame(
@@ -815,15 +783,14 @@ class ModernApp:
         )
         lbl_pass_intro.pack(side=tk.TOP, padx=10, pady=10)
 
-        # Frame para las opciones de configuración
         config_frame = tk.Frame(self.pass_frame_top, bg=self.colors["bg_panel"])
         config_frame.pack(fill=tk.X, padx=10, pady=5)
 
-        # Etiqueta para longitud
+       
         lbl_length = tk.Label(config_frame, text="Longitud:", bg=self.colors["bg_panel"], fg=self.colors["fg_text"])
         lbl_length.grid(row=0, column=0, padx=5, pady=5, sticky="e")
 
-        # Spinbox para longitud de la contraseña
+       
         self.pass_length = tk.IntVar(value=12)
         self.spin_length = ttk.Spinbox(
             config_frame,
@@ -834,7 +801,7 @@ class ModernApp:
         )
         self.spin_length.grid(row=0, column=1, padx=5, pady=5, sticky="w")
 
-        # Checkboxes para tipos de caracteres
+        
         self.include_upper = tk.BooleanVar(value=True)
         self.include_lower = tk.BooleanVar(value=True)
         self.include_digits = tk.BooleanVar(value=True)
@@ -845,13 +812,13 @@ class ModernApp:
         chk_digits = ttk.Checkbutton(config_frame, text="Dígitos", variable=self.include_digits, style="TCheckbutton")
         chk_symbols = ttk.Checkbutton(config_frame, text="Símbolos", variable=self.include_symbols, style="TCheckbutton")
 
-        # Ajustamos la posición de los checkboxes
+        
         chk_upper.grid(row=1, column=0, padx=5, pady=5, sticky="w")
         chk_lower.grid(row=1, column=1, padx=5, pady=5, sticky="w")
         chk_digits.grid(row=2, column=0, padx=5, pady=5, sticky="w")
         chk_symbols.grid(row=2, column=1, padx=5, pady=5, sticky="w")
 
-        # Botón para generar
+        
         self.btn_generate_pass = ttk.Button(
             self.pass_frame_top,
             text="Generar Contraseña",
@@ -860,7 +827,6 @@ class ModernApp:
         )
         self.btn_generate_pass.pack(side=tk.LEFT, padx=15, pady=10)
 
-        # Barra de progreso
         self.progress_pass = ttk.Progressbar(
             self.pass_frame_top,
             mode="indeterminate",
@@ -868,7 +834,6 @@ class ModernApp:
         )
         self.progress_pass.pack(side=tk.LEFT, padx=(0,10), pady=10)
 
-        # Área para mostrar la contraseña generada
         self.pass_result_frame = tk.Frame(self.tab_password, bg=self.colors["bg_main"])
         self.pass_result_frame.pack(fill=tk.BOTH, expand=True, padx=15, pady=5)
 
@@ -878,7 +843,7 @@ class ModernApp:
             height=5,
             font=("Consolas", 12, "bold"),
             bg=self.colors["entry_bg"],
-            fg="#00FFFB",  # Color destacado
+            fg="#00FFFB",  
             insertbackground=self.colors["entry_fg"]
         )
         self.txt_pass_result.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
@@ -890,7 +855,6 @@ class ModernApp:
         self.scroll_pass_result.pack(side=tk.RIGHT, fill=tk.Y)
         self.txt_pass_result.config(yscrollcommand=self.scroll_pass_result.set)
 
-        # Botones Copiar / Guardar Contraseña
         bottom_frame = tk.Frame(self.tab_password, bg=self.colors["bg_main"])
         bottom_frame.pack(pady=10)
 
@@ -919,7 +883,7 @@ class ModernApp:
 
     def generar_password_personalizado(self):
         """Genera la contraseña basándose en las opciones de la pestaña."""
-        time.sleep(1.0)  # Simulamos "procesamiento"
+        time.sleep(1.0) 
 
         length = self.pass_length.get()
         chars = ""
@@ -934,7 +898,6 @@ class ModernApp:
             chars += "!@#$%^&*()-_=+[]{};:,.<>?/\\|"
 
         if not chars:
-            # Si no se marca ninguna opción, añadimos algo por defecto
             chars = string.ascii_letters + string.digits + "!@#$%^&*()"
 
         password = ''.join(random.choices(chars, k=length))
@@ -962,9 +925,7 @@ class ModernApp:
                     f.write(contenido)
                 messagebox.showinfo("Guardado", "Contraseña guardada correctamente.")
 
-    # ===========================
-    #     MODO OSCURO/CLARO
-    # ===========================
+   
     def toggle_dark_mode(self):
         """Alterna entre modo claro y modo oscuro."""
         self.is_dark_mode = not self.is_dark_mode
@@ -974,7 +935,7 @@ class ModernApp:
         new_text = "Modo Claro" if self.is_dark_mode else "Modo Oscuro"
         self.btn_toggle_mode.config(text=new_text)
 
-        # Cambia también el gradiente de fondo
+     
         if self.is_dark_mode:
             self.gradient_frame.color1 = "#232526"
             self.gradient_frame.color2 = "#414345"
@@ -985,34 +946,32 @@ class ModernApp:
 
     def apply_colors(self):
         """Aplica la paleta de colores a los widgets."""
-        # Fondo principal
+        
         self.main_container.configure(bg=self.colors["bg_main"])
         self.content_frame.configure(bg=self.colors["bg_main"])
         self.sidebar_frame.configure(bg=self.colors["bg_panel"])
         self.notebook_frame.configure(bg=self.colors["bg_panel"])
 
-        # Sidebar
+       
         self.label_logo.configure(bg=self.colors["bg_panel"], fg=self.colors["fg_text"])
 
-        # Frames en las pestañas
+        
         self.identity_top_frame.configure(bg=self.colors["bg_panel"], fg=self.colors["fg_text"])
         self.ip_frame_top.configure(bg=self.colors["bg_panel"], fg=self.colors["fg_text"])
         self.geo_frame_top.configure(bg=self.colors["bg_panel"], fg=self.colors["fg_text"])
         self.pass_frame_top.configure(bg=self.colors["bg_panel"], fg=self.colors["fg_text"])
 
-        # Text widgets
+        
         self.txt_identity.configure(bg=self.colors["entry_bg"], fg=self.colors["entry_fg"], insertbackground=self.colors["entry_fg"])
         self.txt_ip_result.configure(bg=self.colors["entry_bg"], fg=self.colors["entry_fg"], insertbackground=self.colors["entry_fg"])
         self.txt_geo_result.configure(bg=self.colors["entry_bg"], fg=self.colors["entry_fg"], insertbackground=self.colors["entry_fg"])
         self.txt_pass_result.configure(bg=self.colors["entry_bg"], insertbackground=self.colors["entry_fg"])
 
-        # Ajustamos la top_bar (mantenemos el fondo oscuro por estilo)
+       
         self.top_bar.configure(bg="#111111")
         self.lbl_title.configure(bg="#111111", fg="#00FFFB")
 
-# ========================================================
-#             EJECUCIÓN PRINCIPAL DE LA APP
-# ========================================================
+
 if __name__ == "__main__":
     root = tk.Tk()
     app = ModernApp(root)
