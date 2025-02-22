@@ -70,12 +70,8 @@ Ejecuta la aplicación con:
 python app.py
 ```
 
-## Capturas de pantalla
-_(Añade aquí capturas de pantalla de la aplicación funcionando)_
-
 ## Contribuir
-Si deseas contribuir a este proyecto, por favor haz un **fork**, crea una rama y envía un **pull request**.
+Si deseas contribuir a este proyecto, Wallet Solana:BSpPX2XNtNzTmeRts4X3GDV7LJvKUzFzSkd3kFTcAZRp
 
-## Licencia
-MIT License. Puedes usar, modificar y distribuir este software libremente.
+
 
